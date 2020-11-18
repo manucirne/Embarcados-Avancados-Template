@@ -21,6 +21,10 @@ O arquivo `docs-src/index.md` possui exemplos de estruturas que podem ser utiliz
 
 - https://squidfunk.github.io/mkdocs-material/reference/formatting/
 
+Para visualizar o exemplo, acesse:
+
+- https://insper.github.io/Embarcados-Avancados-Template/
+
 ## Testando
 
 Para testar abra o terminal na raiz desse repositório e digite:
