@@ -20,15 +20,15 @@ Para seguir esse tutorial é necessário:
 
 A fita que foi utilizada tem 276 leds e em cada led existem 3 pixeis (RGB na orgem GBR). A intensidade com que cada pixel será acionado ditará a cor de cada led.
 
-Cada led usa 24 bits, 8 para verde, 8 para o azul e 8 para o vermelho. A fita coleta os dados utilizando os primeiros 24 bits para o led 0 os próximos 24 para o led 1 e assim por diante. 
-Cada sinal tem 1292 nano segundos. O bit 1 corresponde a um sinal com 958 nano segundos em high e 252 nano segundos em low e o bit 0 corresponde a um sinal com 333 nano segundo em high e 937 nano segundos em low.
+Os leds são independentes e têm 24 bits programáveis, 8 para verde, 8 para o azul e 8 para o vermelho. Cada LED coleta os dados utilizando os primeiros 24 bits enviados ao pino DIN, os próximos bits são enviados diretamente para o DOUT, podendo ser utilizado por um outro LED e assim por diante. 
+Cada bit é representado por um sinal de aproximadamente 1300 nano segundos. Um bit 1 corresponde a um sinal com 950 nano segundos em high e 250 nano segundos em low e um bit 0 corresponde a um sinal com 333 nano segundo em high e 977 nano segundos em low.
 <center style="font-size:12px;">
 ![](img/waveled2.png)
 
 Figura 1 - Tempo de high e low para a escrita do bit 1
 </center>
 
-Para reiniciar a escrita no led0 deve existir um espaço de tempo entre os dados igual ou maior que 70 micro segundos.
+Para reiniciar a escrita no led0 deve existir um espaço de tempo entre os pulsos igual ou maior que 70 micro segundos.
 
 <center style="font-size:12px;">
 ![](img/waveled1.png)
@@ -109,7 +109,7 @@ Como só temos um clock na FPGA e todas, manteremos com 1 clock essa configuraç
 
 figura 8 - Modelo da RAM</center>
 
-A chance de acontecer uma leitura e uma escrita ao mesmo tempo é baixa e os problemas gerados se isso acontecer não são relevantes.
+A chance de acontecer uma leitura e uma escrita ao mesmo tempo é baixa e os problemas gerados caso isso aconteça não são relevantes.
 
 <center style="font-size:12px;">![](img/ram5.png)
 
@@ -570,7 +570,7 @@ Como vamos criar o periférico no PD (Plataform Designer), vamos colocar todos e
     * **wraddress**: Endereço da memória que deve ser acessado para escrita de informações vinda do avalon.
     * **wren**: Enable para escrever na mamória.
     * Esse VHDL fará as conexões entre a memória e a máquina de estados que processa a informação para entregar os dados corretamente para a matriz de leds
-    ### Glu-Logic:
+    ### Glue-Logic:
     * **clk**: Entrada do clock.
     * **rst**: É necessário para criar o periférico, mas não faz nada a princípio
     * **serial_out**: Saída que vai para a matriz de led com um bit de cada vez processados pelo driver.
@@ -652,7 +652,7 @@ O componente aparecerá na janela **IP Catalog**. Um arquivo <spam style="color:
     add_fileset_file nomedoarquivo.vhd VHDL PATH nomedoarquivo.vhd
     ```
 
-Adicione o pereférico criado e faça as conexões com os outros periféricos como no exemplo abaixo:
+Adicione o periférico criado e faça as conexões com os outros periféricos como no exemplo abaixo:
 
 <center style="font-size:12px;">
 ![](img/pdconn.png)
@@ -660,7 +660,7 @@ Adicione o pereférico criado e faça as conexões com os outros periféricos co
 Figura 16 - plataform designer - parte5
 </center>
 
-Clique em **Generate HDL** --> **Generate** para gerar o componente e use a opção **create simulation model** com <spam style="color:blue">*vhdl*</spam> para que seja criado o modelo de top level que deve ser utilizado.
+Clique em **Generate HDL** --> **Generate** para gerar o componente e use a opção **create simulation model** com <spam style="color:blue">*vhdl*</spam> para que seja criado os arquivos auxiliares configurados de acordo com o que está no platform designer.
 
 No **Generate** --> **Show Instatiation Template** --> **VHDL** o modelo de código do periférico será apresentado e deve ser copiado para o uso do periférico.
 Como esse projeto foi criado sobre um feito anteriormente o nome da entidade não o ideal. O código abaixo já foi modificado para funcionar corretamente com o NIOS.
